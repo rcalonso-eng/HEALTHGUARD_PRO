@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Editar Usuario{% endblock %}
+{% block contenido %}
+<div class="form-card">
+    <h2>Editar Usuario</h2>
+    <form method="post">
+        <div class="form-group"><label>Nombre:</label>
+            <input type="text" name="nombre" value="{{ usuario.nombre }}" required></div>
+        <div class="form-group"><label>Email:</label>
+            <input type="email" value="{{ usuario.email }}" readonly disabled></div>
+        <div class="form-group"><label>Nueva contraseña (opcional):</label>
+            <input type="password" name="password"></div>
+        <div class="form-group"><label>Teléfono:</label>
+            <input type="text" name="telefono" value="{{ usuario.telefono or '' }}"></div>
+        <div class="form-group"><label>Dirección:</label>
+            <input type="text" name="direccion" value="{{ usuario.direccion or '' }}"></div>
+        <div class="form-group"><label>Género:</label>
+            <select name="genero">
+                <option value="">--</option>
+                <option value="M" {% if usuario.genero=='M' %}selected{% endif %}>Masculino</option>
+                <option value="F" {% if usuario.genero=='F' %}selected{% endif %}>Femenino</option>
+                <option value="O" {% if usuario.genero=='O' %}selected{% endif %}>Otro</option>
+            </select></div>
+        <div class="form-group"><label>Rol principal:</label>
+            <select name="rol_id">
+                {% for r in roles %}
+                <option value="{{ r.rol_id }}"
+                    {% if rol_principal and rol_principal.rol_id == r.rol_id %}selected{% endif %}>
+                    {{ r.nombre_rol }}
+                </option>
+                {% endfor %}
+            </select></div>
+        <div class="form-group">
+            <label><input type="checkbox" name="estado" {% if usuario.estado %}checked{% endif %}> Activo</label>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Actualizar</button>
+            <a href="{{ url_for('listar_usuarios') }}" class="link-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

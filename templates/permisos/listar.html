@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Permisos{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Gestión de Permisos</h1>
+    <a href="{{ url_for('agregar_permiso') }}" class="btn btn-add">+ Nuevo Permiso</a>
+    <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Módulo</th><th>Categoría</th><th>Crítico</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for p in permisos %}
+            <tr>
+                <td>{{ p.permiso_id }}</td>
+                <td>{{ p.nombre_permiso }}</td>
+                <td>{{ p.modulo }}</td>
+                <td>{{ p.categoria }}</td>
+                <td>{{ '✅' if p.es_critico else '' }}</td>
+                <td>
+                    <a href="{{ url_for('editar_permiso', id=p.permiso_id) }}" class="btn btn-edit">Editar</a>
+                    <a href="#" onclick="confirmarEliminar('{{ url_for('eliminar_permiso', id=p.permiso_id) }}','¿Eliminar permiso?')" class="btn btn-delete">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

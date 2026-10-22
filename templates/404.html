@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Página no encontrada{% endblock %}
+{% block contenido %}
+<div class="error-page">
+    <h1>404 - Página no encontrada</h1>
+    <img src="{{ url_for('static', filename='img/error404.png') }}" alt="Error 404">
+    <p>Lo sentimos, la página que buscas no existe.</p>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Volver al inicio</a>
+</div>
+{% endblock %}

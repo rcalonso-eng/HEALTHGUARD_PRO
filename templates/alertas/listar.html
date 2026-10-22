@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Alertas{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Alertas</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Paciente</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Nivel</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alerta in alertas %}
+            <tr>
+                <td>{{ alerta.alerta_id }}</td>
+                <td>{{ alerta.paciente.nombre }}</td>
+                <td>{{ alerta.tipo_signo_vital }}</td>
+                <td>{{ alerta.valor_registrado }}</td>
+                <td>{{ alerta.nivel_urgencia }}</td>
+                <td>{{ alerta.fecha_generacion.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ alerta.estado }}</td>
+                <td>
+                    {% if alerta.estado == 'activa' and (current_user.is_admin() or current_user.is_medico() or current_user.is_enfermero()) %}
+                        <a href="{{ url_for('resolver_alerta', alerta_id=alerta.alerta_id) }}" class="btn btn-warning">Resolver</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

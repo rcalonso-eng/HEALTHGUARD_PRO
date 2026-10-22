@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Pacientes{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Listado de Pacientes</h1>
+    <a href="{{ url_for('agregar_paciente') }}" class="btn btn-add">Agregar Paciente</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paciente in pacientes %}
+            <tr>
+                <td>{{ paciente.usuario_id }}</td>
+                <td>{{ paciente.nombre }}</td>
+                <td>{{ paciente.email }}</td>
+                <td>{{ paciente.telefono or '' }}</td>
+                <td>{{ 'Activo' if paciente.estado else 'Inactivo' }}</td>
+                <td>
+                    <a href="{{ url_for('editar_paciente', id=paciente.usuario_id) }}" class="btn btn-edit">Editar</a>
+                    <a href="#" onclick="confirmarEliminar('{{ url_for('eliminar_paciente', id=paciente.usuario_id) }}')" class="btn btn-delete">Eliminar</a>
+                    <a href="{{ url_for('listar_signos', paciente_id=paciente.usuario_id) }}" class="btn btn-info">Signos</a>
+                    <a href="{{ url_for('listar_historial', paciente_id=paciente.usuario_id) }}" class="btn btn-secondary">Historial</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+function confirmarEliminar(url) {
+    if (confirm('¿Estás seguro de desactivar este paciente?')) {
+        window.location.href = url;
+    }
+}
+</script>
+{% endblock %}

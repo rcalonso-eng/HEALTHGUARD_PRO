@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Notificaciones{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Mis Notificaciones</h1>
+    <a href="{{ url_for('marcar_todas_leidas') }}" class="btn btn-info">Marcar todas leídas</a>
+    {% if current_user.is_admin() %}
+    <a href="{{ url_for('agregar_notificacion') }}" class="btn btn-add">+ Enviar Notificación</a>
+    {% endif %}
+    <table class="table table-striped">
+        <thead><tr><th>Fecha</th><th>Título</th><th>Tipo</th><th>Prioridad</th><th>Leída</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for n in notificaciones %}
+            <tr>
+                <td>{{ n.fecha_creacion.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ n.titulo }}</td>
+                <td>{{ n.tipo }}</td>
+                <td>{{ n.prioridad }}</td>
+                <td>{{ 'Sí' if n.leida else 'No' }}</td>
+                <td>
+                    {% if not n.leida %}
+                    <a href="{{ url_for('marcar_leida', id=n.notificacion_id) }}" class="btn btn-info">Marcar leída</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

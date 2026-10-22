@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HealthGuard Pro{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    {% block navbar %}
+    <header>
+        <h1>HealthGuard Pro</h1>
+        <div class="nav-container">
+            <nav>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('dashboard') }}">Inicio</a>
+        
+        {% if current_user.is_admin() %}
+            <a href="{{ url_for('listar_pacientes') }}">Pacientes</a>
+            <a href="{{ url_for('listar_alertas') }}">Alertas</a>
+            <a href="{{ url_for('listar_usuarios') }}">Usuarios</a>
+            <a href="{{ url_for('listar_roles') }}">Roles</a>
+            <a href="{{ url_for('listar_permisos') }}">Permisos</a>
+            <a href="{{ url_for('listar_auditoria') }}">Auditoría</a>
+            <a href="{{ url_for('listar_respaldos_logicos') }}">Respaldos</a>
+        {% elif current_user.is_medico() or current_user.is_enfermero() %}
+            <a href="{{ url_for('listar_pacientes') }}">Pacientes</a>
+            <a href="{{ url_for('listar_alertas') }}">Alertas</a>
+            <a href="{{ url_for('listar_notificaciones') }}">Notificaciones</a>
+        {% elif current_user.is_paciente() %}
+            <a href="{{ url_for('ver_mis_signos') }}">Mis Signos</a>
+            <a href="{{ url_for('ver_mis_alertas') }}">Mis Alertas</a>
+            <a href="{{ url_for('ver_mi_historial') }}">Mi Historial</a>
+            <a href="{{ url_for('listar_notificaciones') }}">Notificaciones</a>
+        {% endif %}
+    {% endif %}
+</nav>
+        </div>
+        {% if current_user.is_authenticated %}
+        <div class="user-profile">
+            <div class="user-info">
+                <span class="user-name">{{ current_user.nombre }}</span>
+                <span class="user-role">
+                    {% if current_user.is_admin() %}Administrador
+                    {% elif current_user.is_medico() %}Médico
+                    {% elif current_user.is_enfermero() %}Enfermero
+                    {% elif current_user.is_paciente() %}Paciente
+                    {% endif %}
+                </span>
+            </div>
+            <div class="avatar">{{ current_user.nombre[0]|upper }}</div>
+            <a href="{{ url_for('perfil') }}" class="btn-profile">Mi Perfil</a>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Cerrar Sesión</a>
+        </div>
+        {% endif %}
+    </header>
+    {% endblock %}
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert-glass alert-{{ category }}">
+                        <span class="alert-icon">{% if category == 'success' %} ✅ {% else %} ℹ️ {% endif %}</span>
+                        <span class="alert-message">{{ message }}</span>
+                        <button class="alert-close" onclick="this.parentElement.style.display='none';">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 HealthGuard Pro</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

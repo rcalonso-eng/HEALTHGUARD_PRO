@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Respaldos Físicos{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Respaldos Físicos</h1>
+    <form method="post" action="{{ url_for('crear_respaldo_fisico') }}" style="display:inline;">
+        <button type="submit" class="btn btn-add">+ Crear Respaldo Físico</button>
+    </form>
+    <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Fecha</th><th>Tipo</th><th>MB</th><th>Ruta</th><th>Checksum</th><th>Estado</th><th>Duración</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for r in respaldos %}
+            <tr>
+                <td>{{ r.respaldo_id }}</td>
+                <td>{{ r.fecha_respaldo.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ r.tipo_respaldo }}</td>
+                <td>{{ r.tamaño_mb }}</td>
+                <td>{{ r.ruta_archivo }}</td>
+                <td style="font-size:0.7rem;">{{ r.checksum[:16] }}…</td>
+                <td>{{ r.estado }}</td>
+                <td>{{ r.duracion_segundos }}s</td>
+                <td>
+                    <a href="#" onclick="confirmarEliminar('{{ url_for('eliminar_respaldo_fisico', id=r.respaldo_id) }}','¿Eliminar registro?')" class="btn btn-delete">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

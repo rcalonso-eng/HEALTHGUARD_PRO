@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Dispositivos de {{ paciente.nombre }}{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Dispositivos — {{ paciente.nombre }}</h1>
+    <a href="{{ url_for('nuevo_dispositivo', paciente_id=paciente.usuario_id) }}" class="btn btn-add">+ Nuevo Dispositivo</a>
+    <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Tipo</th><th>Marca/Modelo</th><th>Nº Serie</th><th>Activo</th><th>Última sinc.</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for d in dispositivos %}
+            <tr>
+                <td>{{ d.dispositivo_id }}</td>
+                <td>{{ d.tipo_dispositivo }}</td>
+                <td>{{ d.marca_modelo }}</td>
+                <td>{{ d.numero_serie or '-' }}</td>
+                <td>{{ 'Sí' if d.esta_activo else 'No' }}</td>
+                <td>{{ d.fecha_ultima_sincronizacion.strftime('%Y-%m-%d %H:%M') if d.fecha_ultima_sincronizacion else '-' }}</td>
+                <td>
+                    <a href="{{ url_for('editar_dispositivo', id=d.dispositivo_id) }}" class="btn btn-edit">Editar</a>
+                    <a href="{{ url_for('sincronizar_dispositivo', id=d.dispositivo_id) }}" class="btn btn-info">Sincronizar</a>
+                    <a href="#" onclick="confirmarEliminar('{{ url_for('eliminar_dispositivo', id=d.dispositivo_id) }}','¿Eliminar?')" class="btn btn-delete">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('listar_pacientes') }}" class="btn btn-secondary">Volver</a>
+</div>
+{% endblock %}

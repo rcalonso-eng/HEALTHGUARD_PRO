@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Resolver Alerta{% endblock %}
+{% block contenido %}
+<div class="form-card">
+    <h2>Resolver Alerta</h2>
+    <p><strong>Paciente:</strong> {{ alerta.paciente.nombre }}</p>
+    <p><strong>Tipo:</strong> {{ alerta.tipo_signo_vital }}</p>
+    <p><strong>Valor:</strong> {{ alerta.valor_registrado }}</p>
+    <p><strong>Nivel:</strong> {{ alerta.nivel_urgencia }}</p>
+    <p><strong>Mensaje:</strong> {{ alerta.mensaje }}</p>
+    <form action="{{ url_for('resolver_alerta', alerta_id=alerta.alerta_id) }}" method="post">
+        <div class="form-group">
+            <label for="accion">Acción tomada:</label>
+            <textarea id="accion" name="accion" rows="4" required></textarea>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Marcar como Resuelta</button>
+            <a href="{{ url_for('listar_alertas') }}" class="link-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

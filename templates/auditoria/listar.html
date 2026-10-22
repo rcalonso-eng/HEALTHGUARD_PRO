@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Auditoría{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Auditoría del Sistema</h1>
+    <form method="get" class="form-inline">
+        <input type="text" name="tabla" placeholder="Tabla" value="{{ tabla or '' }}">
+        <select name="operacion">
+            <option value="">-- Todas --</option>
+            {% for op in ['INSERT','UPDATE','DELETE','BACKUP','RESTORE'] %}
+            <option value="{{ op }}" {% if operacion==op %}selected{% endif %}>{{ op }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+    <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Fecha</th><th>Tabla</th><th>Operación</th><th>Usuario</th><th>Severidad</th><th>Detalle</th></tr></thead>
+        <tbody>
+        {% for r in registros %}
+            <tr>
+                <td>{{ r.auditoria_id }}</td>
+                <td>{{ r.fecha_operacion.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ r.tabla_afectada }}</td>
+                <td>{{ r.operacion }}</td>
+                <td>{{ r.usuario.nombre }}</td>
+                <td>{{ r.nivel_severidad }}</td>
+                <td><a href="{{ url_for('detalle_auditoria', id=r.auditoria_id) }}" class="btn btn-info">Ver</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

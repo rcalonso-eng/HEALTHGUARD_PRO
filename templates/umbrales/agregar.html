@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Nuevo Umbral{% endblock %}
+{% block contenido %}
+<div class="form-card">
+    <h2>Nuevo Umbral para {{ paciente.nombre }}</h2>
+    <form method="post">
+        <div class="form-group"><label>Tipo de signo:</label>
+            <select name="tipo_signo_vital">
+                <option value="glucosa">Glucosa</option>
+                <option value="presion_arterial">Presión arterial</option>
+                <option value="peso">Peso</option>
+                <option value="frecuencia_cardiaca">Frecuencia cardíaca</option>
+                <option value="oxigenacion">Oxigenación</option>
+            </select></div>
+        <div class="form-group"><label>Mínimo normal:</label>
+            <input type="number" step="0.01" name="minimo_normal" required></div>
+        <div class="form-group"><label>Máximo normal:</label>
+            <input type="number" step="0.01" name="maximo_normal" required></div>
+        <div class="form-group"><label>Mínimo crítico:</label>
+            <input type="number" step="0.01" name="minimo_critico" required></div>
+        <div class="form-group"><label>Máximo crítico:</label>
+            <input type="number" step="0.01" name="maximo_critico" required></div>
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Guardar</button>
+            <a href="{{ url_for('listar_umbrales', paciente_id=paciente.usuario_id) }}" class="link-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

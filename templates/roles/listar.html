@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Roles{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Gestión de Roles</h1>
+    <a href="{{ url_for('agregar_rol') }}" class="btn btn-add">+ Nuevo Rol</a>
+    <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Nivel</th><th>Permisos</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for r in roles %}
+            <tr>
+                <td>{{ r.rol_id }}</td>
+                <td>{{ r.nombre_rol }}</td>
+                <td>{{ r.nivel_permisos }}</td>
+                <td>{{ r.permisos|length }}</td>
+                <td>
+                    <a href="{{ url_for('editar_rol', id=r.rol_id) }}" class="btn btn-edit">Editar</a>
+                    <a href="#" onclick="confirmarEliminar('{{ url_for('eliminar_rol', id=r.rol_id) }}','¿Eliminar rol?')" class="btn btn-delete">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Umbrales de {{ paciente.nombre }}{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Umbrales de Alertas — {{ paciente.nombre }}</h1>
+    <a href="{{ url_for('nuevo_umbral', paciente_id=paciente.usuario_id) }}" class="btn btn-add">+ Nuevo Umbral</a>
+    <table class="table table-striped">
+        <thead><tr><th>Tipo</th><th>Normal (mín-máx)</th><th>Crítico (mín-máx)</th><th>Activo</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for u in umbrales %}
+            <tr>
+                <td>{{ u.tipo_signo_vital }}</td>
+                <td>{{ u.minimo_normal }} - {{ u.maximo_normal }}</td>
+                <td>{{ u.minimo_critico }} - {{ u.maximo_critico }}</td>
+                <td>{{ 'Sí' if u.esta_activo else 'No' }}</td>
+                <td>
+                    <a href="{{ url_for('editar_umbral', id=u.umbral_id) }}" class="btn btn-edit">Editar</a>
+                    <a href="#" onclick="confirmarEliminar('{{ url_for('eliminar_umbral', id=u.umbral_id) }}','¿Eliminar?')" class="btn btn-delete">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('listar_pacientes') }}" class="btn btn-secondary">Volver</a>
+</div>
+{% endblock %}

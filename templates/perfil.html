@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Mi Perfil{% endblock %}
+{% block contenido %}
+<div class="form-card">
+    <h2>Mi Perfil</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="nombre">Nombre completo:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" value="{{ usuario.email }}" readonly disabled>
+            <small>(El email no se puede cambiar)</small>
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" value="{{ usuario.telefono or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" value="{{ usuario.direccion or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="codigo_postal">Código Postal:</label>
+            <input type="text" id="codigo_postal" name="codigo_postal" value="{{ usuario.codigo_postal or '' }}">
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Actualizar</button>
+            <a href="{{ url_for('dashboard') }}" class="link-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

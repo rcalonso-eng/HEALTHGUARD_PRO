@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Gestión de Usuarios</h1>
+    <a href="{{ url_for('agregar_usuario') }}" class="btn btn-add">+ Nuevo Usuario</a>
+    <table class="table table-striped">
+        <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Estado</th>
+                <th>Bloqueada</th><th>Roles</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+        {% for u in usuarios %}
+            <tr>
+                <td>{{ u.usuario_id }}</td>
+                <td>{{ u.nombre }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ 'Activo' if u.estado else 'Inactivo' }}</td>
+                <td>{{ 'Sí' if u.cuenta_bloqueada else 'No' }}</td>
+                <td>
+                    {% for ur in u.roles %}{{ ur.rol.nombre_rol }}{% if not loop.last %}, {% endif %}{% endfor %}
+                </td>
+                <td>
+                    <a href="{{ url_for('editar_usuario', id=u.usuario_id) }}" class="btn btn-edit">Editar</a>
+                    <a href="{{ url_for('gestionar_roles_usuario', id=u.usuario_id) }}" class="btn btn-info">Roles</a>
+                    <a href="{{ url_for('bloquear_usuario', id=u.usuario_id) }}" class="btn btn-warning">
+                        {{ 'Desbloquear' if u.cuenta_bloqueada else 'Bloquear' }}
+                    </a>
+                    {% if u.usuario_id != current_user.usuario_id %}
+                    <a href="#" onclick="confirmarEliminar('{{ url_for('eliminar_usuario', id=u.usuario_id) }}','¿Desactivar usuario?')" class="btn btn-delete">Desactivar</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Detalle Auditoría{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Detalle de Auditoría #{{ registro.auditoria_id }}</h1>
+    <p><strong>Tabla:</strong> {{ registro.tabla_afectada }}</p>
+    <p><strong>Operación:</strong> {{ registro.operacion }}</p>
+    <p><strong>Registro ID:</strong> {{ registro.registro_id }}</p>
+    <p><strong>Usuario:</strong> {{ registro.usuario.nombre }}</p>
+    <p><strong>Fecha:</strong> {{ registro.fecha_operacion.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+    <p><strong>Severidad:</strong> {{ registro.nivel_severidad }}</p>
+    <h3>Datos anteriores</h3>
+    <pre>{{ registro.datos_anteriores }}</pre>
+    <h3>Datos nuevos</h3>
+    <pre>{{ registro.datos_nuevos }}</pre>
+    <a href="{{ url_for('listar_auditoria') }}" class="btn btn-secondary">Volver</a>
+</div>
+{% endblock %}

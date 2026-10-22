@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Respaldos Lógicos{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Respaldos Lógicos</h1>
+    <form method="post" action="{{ url_for('crear_respaldo_logico') }}" style="display:inline;">
+        <button type="submit" class="btn btn-add">+ Crear Respaldo Lógico</button>
+    </form>
+    <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Fecha</th><th>Tipo</th><th>Registros</th><th>MB</th><th>Ruta</th><th>Estado</th><th>Usuario</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for r in respaldos %}
+            <tr>
+                <td>{{ r.respaldo_id }}</td>
+                <td>{{ r.fecha_respaldo.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ r.tipo_respaldo }}</td>
+                <td>{{ r.total_registros }}</td>
+                <td>{{ r.tamaño_estimado_mb }}</td>
+                <td>{{ r.ruta_archivo }}</td>
+                <td>{{ r.estado }}</td>
+                <td>{{ r.usuario.nombre }}</td>
+                <td>
+                    <a href="#" onclick="confirmarEliminar('{{ url_for('eliminar_respaldo_logico', id=r.respaldo_id) }}','¿Eliminar registro?')" class="btn btn-delete">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

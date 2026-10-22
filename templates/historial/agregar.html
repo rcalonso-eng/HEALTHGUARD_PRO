@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Nueva Entrada de Historial{% endblock %}
+{% block contenido %}
+<div class="form-card">
+    <h2>Nueva Entrada para {{ paciente.nombre }}</h2>
+    <form action="{{ url_for('nuevo_historial', paciente_id=paciente.usuario_id) }}" method="post">
+        <div class="form-group">
+            <label for="tipo_entrada">Tipo:</label>
+            <select name="tipo_entrada" id="tipo_entrada" required>
+                <option value="diagnostico">Diagnóstico</option>
+                <option value="medicamento">Medicamento</option>
+                <option value="antecedente">Antecedente</option>
+                <option value="laboratorio">Laboratorio</option>
+                <option value="evolucion">Evolución</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" required>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="categoria">Categoría:</label>
+            <input type="text" id="categoria" name="categoria">
+        </div>
+        <div class="form-group">
+            <label for="nivel_confidencialidad">Confidencialidad:</label>
+            <select name="nivel_confidencialidad" id="nivel_confidencialidad">
+                <option value="bajo">Bajo</option>
+                <option value="medio" selected>Medio</option>
+                <option value="alto">Alto</option>
+                <option value="critico">Crítico</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="urgente"> Marcar como urgente
+            </label>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Guardar</button>
+            <a href="{{ url_for('listar_historial', paciente_id=paciente.usuario_id) }}" class="link-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

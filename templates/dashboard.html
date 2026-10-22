@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block contenido %}
+<div class="dashboard">
+    <h1>Bienvenido, {{ current_user.nombre }}</h1>
+    {% if current_user.is_admin() %}
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Pacientes</h3>
+                <p class="stat-number">{{ total_pacientes }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Alertas Activas</h3>
+                <p class="stat-number">{{ alertas_activas }}</p>
+            </div>
+        </div>
+        <div class="quick-actions">
+            <a href="{{ url_for('listar_pacientes') }}" class="btn btn-primary">Gestionar Pacientes</a>
+            <a href="{{ url_for('listar_alertas') }}" class="btn btn-warning">Ver Alertas</a>
+        </div>
+    {% elif current_user.is_medico() or current_user.is_enfermero() %}
+        <h2>Mis Pacientes</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paciente in pacientes %}
+                <tr>
+                    <td>{{ paciente.usuario_id }}</td>
+                    <td>{{ paciente.nombre }}</td>
+                    <td>{{ paciente.email }}</td>
+                    <td>{{ paciente.telefono or '' }}</td>
+                    <td>
+                        <a href="{{ url_for('listar_signos', paciente_id=paciente.usuario_id) }}" class="btn btn-sm btn-info">Signos</a>
+                        <a href="{{ url_for('listar_historial', paciente_id=paciente.usuario_id) }}" class="btn btn-sm btn-secondary">Historial</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

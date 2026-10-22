@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Signos Vitales de {{ paciente.nombre }}{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Signos Vitales de {{ paciente.nombre }}</h1>
+    <a href="{{ url_for('nuevo_signo', paciente_id=paciente.usuario_id) }}" class="btn btn-add">Registrar Nuevo Signo</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Glucosa</th>
+                <th>Presión</th>
+                <th>Peso</th>
+                <th>Frec. Cardíaca</th>
+                <th>Oxigenación</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for signo in signos %}
+            <tr>
+                <td>{{ signo.fecha_registro.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ signo.glucosa or '-' }}</td>
+                <td>{{ signo.presion_sistolica or '-' }}/{{ signo.presion_diastolica or '-' }}</td>
+                <td>{{ signo.peso or '-' }}</td>
+                <td>{{ signo.frecuencia_cardiaca or '-' }}</td>
+                <td>{{ signo.oxigenacion or '-' }}</td>
+                <td>{{ signo.observaciones or '' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('listar_pacientes') }}" class="btn btn-secondary">Volver a pacientes</a>
+</div>
+{% endblock %}

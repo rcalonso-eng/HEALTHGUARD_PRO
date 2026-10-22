@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Roles de {{ usuario.nombre }}{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Roles de {{ usuario.nombre }}</h1>
+    <table class="table table-striped">
+        <thead><tr><th>Rol</th><th>Nivel</th><th>Principal</th><th>Asignado</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for a in asignaciones %}
+            <tr>
+                <td>{{ a.rol.nombre_rol }}</td>
+                <td>{{ a.rol.nivel_permisos }}</td>
+                <td>{{ '✅' if a.es_rol_principal else '' }}</td>
+                <td>{{ a.fecha_asignacion.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>
+                    {% if not a.es_rol_principal %}
+                    <a href="{{ url_for('marcar_rol_principal', id=usuario.usuario_id, ur_id=a.usuario_rol_id) }}" class="btn btn-info">Marcar principal</a>
+                    <a href="{{ url_for('quitar_rol_usuario', id=usuario.usuario_id, ur_id=a.usuario_rol_id) }}" class="btn btn-delete">Quitar</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h3>Asignar nuevo rol</h3>
+    <form method="post" class="form-inline">
+        <input type="hidden" name="accion" value="asignar">
+        <select name="rol_id" required>
+            {% for r in roles %}
+            <option value="{{ r.rol_id }}">{{ r.nombre_rol }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn-submit">Asignar</button>
+    </form>
+    <a href="{{ url_for('listar_usuarios') }}" class="btn btn-secondary">Volver</a>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Historial Clínico de {{ paciente.nombre }}{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1>Historial Clínico de {{ paciente.nombre }}</h1>
+    {% if current_user.is_admin() or current_user.is_medico() %}
+        <a href="{{ url_for('nuevo_historial', paciente_id=paciente.usuario_id) }}" class="btn btn-add">Nueva Entrada</a>
+    {% endif %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Profesional</th>
+                <th>Urgente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entrada in historial %}
+            <tr>
+                <td>{{ entrada.fecha_creacion.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ entrada.tipo_entrada }}</td>
+                <td>{{ entrada.titulo }}</td>
+                <td>{{ entrada.descripcion or '' }}</td>
+                <td>{{ entrada.profesional.nombre }}</td>
+                <td>{{ 'Sí' if entrada.es_urgente else 'No' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('listar_pacientes') }}" class="btn btn-secondary">Volver a pacientes</a>
+</div>
+{% endblock %}

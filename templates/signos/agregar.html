@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Registrar Signo Vital{% endblock %}
+{% block contenido %}
+<div class="form-card">
+    <h2>Registrar Signo Vital para {{ paciente.nombre }}</h2>
+    <form action="{{ url_for('nuevo_signo', paciente_id=paciente.usuario_id) }}" method="post">
+        
+        <div class="form-group">
+            <label for="glucosa">Glucosa (mg/dL):</label>
+            <!-- Rango: 50 a 400 -->
+            <input type="number" step="0.1" id="glucosa" name="glucosa" 
+                   min="50" max="400" placeholder="Ej: 120.5 (Rango: 50-400)">
+        </div>
+        
+        <div class="form-group">
+            <label for="sistolica">Presión Sistólica (mmHg):</label>
+            <!-- Rango: 50 a 250 -->
+            <input type="number" id="sistolica" name="sistolica" 
+                   min="50" max="250" placeholder="Ej: 120 (Rango: 50-250)">
+        </div>
+        
+        <div class="form-group">
+            <label for="diastolica">Presión Diastólica (mmHg):</label>
+            <!-- Rango: 30 a 150 -->
+            <input type="number" id="diastolica" name="diastolica" 
+                   min="30" max="150" placeholder="Ej: 80 (Rango: 30-150)">
+        </div>
+        
+        <div class="form-group">
+            <label for="peso">Peso (kg):</label>
+            <!-- Rango: 20 a 300 -->
+            <input type="number" step="0.1" id="peso" name="peso" 
+                   min="20" max="300" placeholder="Ej: 70.5 (Rango: 20-300)">
+        </div>
+        
+        <div class="form-group">
+            <label for="fc">Frecuencia Cardíaca (lpm):</label>
+            <!-- Rango: 30 a 200 -->
+            <input type="number" id="fc" name="fc" 
+                   min="30" max="200" placeholder="Ej: 75 (Rango: 30-200)">
+        </div>
+        
+        <div class="form-group">
+            <label for="oxigenacion">Oxigenación (%):</label>
+            <!-- Rango: 50 a 100 -->
+            <input type="number" step="0.1" id="oxigenacion" name="oxigenacion" 
+                   min="50" max="100" placeholder="Ej: 98.5 (Rango: 50-100)">
+        </div>
+        
+        <div class="form-group">
+            <label for="observaciones">Observaciones:</label>
+            <textarea id="observaciones" name="observaciones" rows="3"></textarea>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Guardar</button>
+            <a href="{{ url_for('listar_signos', paciente_id=paciente.usuario_id) }}" class="link-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

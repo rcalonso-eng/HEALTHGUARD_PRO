@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Nuevo Rol{% endblock %}
+{% block contenido %}
+<div class="form-card">
+    <h2>Nuevo Rol</h2>
+    <form method="post">
+        <div class="form-group"><label>Nombre del rol:</label>
+            <input type="text" name="nombre_rol" required></div>
+        <div class="form-group"><label>Descripción:</label>
+            <textarea name="descripcion" rows="3" required></textarea></div>
+        <div class="form-group"><label>Nivel de permisos (1-10):</label>
+            <input type="number" name="nivel_permisos" min="1" max="10" required></div>
+        <div class="form-group">
+            <label><input type="checkbox" name="puede_crear_usuarios"> Puede crear usuarios</label><br>
+            <label><input type="checkbox" name="puede_eliminar_datos"> Puede eliminar datos</label><br>
+            <label><input type="checkbox" name="puede_configurar_sistema"> Puede configurar sistema</label><br>
+            <label><input type="checkbox" name="acceso_total"> Acceso total</label>
+        </div>
+        <div class="form-group"><label>Permisos:</label>
+            {% for p in permisos %}
+            <label style="display:block;">
+                <input type="checkbox" name="permisos" value="{{ p.permiso_id }}">
+                {{ p.nombre_permiso }} ({{ p.modulo }}/{{ p.categoria }})
+            </label>
+            {% endfor %}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Guardar</button>
+            <a href="{{ url_for('listar_roles') }}" class="link-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
